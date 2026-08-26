@@ -1,0 +1,609 @@
+<title>Maulkorb oder Maulverschluss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+:root{
+  --ink:#0F1513;
+  --ink-2:#18211D;
+  --ink-3:#222D28;
+  --duck:#FFC81E;
+  --duck-deep:#D9A200;
+  --paper:#EDE8DA;
+  --paper-2:#DCD5C3;
+  --blood:#C4341F;
+  --mute:#8B9A93;
+  --line:#2C3833;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ink);
+  color:var(--paper);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:clamp(20px,4vw,52px) clamp(16px,4vw,40px) 96px}
+
+/* ---------- page masthead ---------- */
+.masthead{border-bottom:2px solid var(--line);padding-bottom:22px;margin-bottom:30px}
+.kicker{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:600;
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--duck);
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px
+}
+.kicker .dot{width:6px;height:6px;background:var(--duck);display:inline-block}
+h1{
+  font-family:Anton,"Arial Narrow",Impact,sans-serif;font-weight:400;
+  font-size:clamp(34px,6.4vw,62px);line-height:.94;letter-spacing:.005em;
+  margin:0 0 14px;text-wrap:balance;text-transform:uppercase;color:var(--paper)
+}
+.masthead p{margin:0;max-width:62ch;color:var(--mute);font-size:16px;line-height:1.6}
+.masthead p b{color:var(--paper);font-weight:600}
+
+/* ---------- controls ---------- */
+.panel{
+  background:var(--ink-2);border:1px solid var(--line);
+  padding:20px clamp(16px,2.4vw,24px);margin-bottom:26px;
+  display:flex;flex-direction:column;gap:18px
+}
+.panel-row{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.field>span{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--mute)
+}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+button,.filebtn{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;
+  background:transparent;color:var(--paper);border:1px solid var(--line);
+  padding:10px 14px;cursor:pointer;transition:background .15s,border-color .15s,color .15s
+}
+button:hover,.filebtn:hover{border-color:var(--duck);color:var(--duck)}
+button:focus-visible,.filebtn:focus-visible,input:focus-visible{outline:2px solid var(--duck);outline-offset:2px}
+button[aria-pressed="true"]{background:var(--duck);border-color:var(--duck);color:var(--ink)}
+.filebtn{border-color:var(--duck);color:var(--duck)}
+.filebtn:hover{background:var(--duck);color:var(--ink)}
+input[type="file"]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+input[type="range"]{
+  -webkit-appearance:none;appearance:none;width:170px;height:2px;background:var(--line);cursor:pointer
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:16px;height:16px;background:var(--duck);border:0;cursor:grab
+}
+input[type="range"]::-moz-range-thumb{width:16px;height:16px;background:var(--duck);border:0;cursor:grab}
+.hint{font-size:13px;line-height:1.55;color:var(--mute);margin:0;max-width:74ch}
+.hint b{color:var(--duck);font-weight:600}
+
+/* ---------- stages ---------- */
+.stages{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(16px,2.6vw,30px);margin-bottom:34px
+}
+@media (max-width:760px){.stages{grid-template-columns:minmax(0,1fr)}}
+.stage-wrap{display:flex;flex-direction:column;gap:10px;min-width:0}
+.stage-label{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--mute);
+  display:flex;justify-content:space-between;gap:12px
+}
+.stage-label em{color:var(--duck);font-style:normal}
+.stage{container-type:inline-size;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.55)}
+
+/* ---------- the story canvas (9:16) ---------- */
+.story{
+  position:relative;width:100%;aspect-ratio:1080/1920;overflow:hidden;
+  background:var(--ink);color:var(--paper);
+  display:flex;flex-direction:column;
+}
+.safe-top{height:19cqw;flex:none}
+.safe-bot{height:21cqw;flex:none}
+.pad{padding-left:7cqw;padding-right:7cqw}
+
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:2.5cqw;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--duck);
+  display:flex;align-items:center;gap:2cqw
+}
+.eyebrow::before{content:"";width:6cqw;height:.55cqw;background:var(--duck);flex:none}
+
+/* image exhibit */
+.exhibit{position:relative;margin-top:4cqw;height:66cqw;flex:none;background:var(--ink-2);overflow:hidden}
+.exhibit img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  object-position:50% var(--py,50%);transform:scale(var(--z,1));transform-origin:center
+}
+.exhibit.empty img{display:none}
+.drop{
+  position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;
+  gap:2cqw;text-align:center;padding:6cqw;
+  border:.5cqw dashed var(--line);background:var(--ink-2);color:var(--mute)
+}
+.exhibit.empty .drop{display:flex}
+.exhibit.over .drop{border-color:var(--duck);color:var(--duck)}
+.drop strong{
+  font-family:Anton,sans-serif;font-weight:400;font-size:5cqw;letter-spacing:.02em;
+  text-transform:uppercase;color:var(--paper)
+}
+.drop span{font-family:"IBM Plex Mono",monospace;font-size:2.4cqw;letter-spacing:.1em;text-transform:uppercase;line-height:1.7}
+.pricetag{
+  position:absolute;left:0;bottom:0;background:var(--duck);color:var(--ink);
+  font-family:Anton,sans-serif;font-size:6.4cqw;line-height:1;padding:2cqw 3.4cqw 2.2cqw;
+  letter-spacing:.01em
+}
+.pricetag small{display:block;font-family:"IBM Plex Mono",monospace;font-size:1.9cqw;font-weight:600;letter-spacing:.16em;margin-bottom:.7cqw}
+.bar{
+  position:absolute;height:5.2%;background:#0A0E0C;cursor:grab;touch-action:none;
+  display:flex;align-items:center;justify-content:flex-start;
+}
+.bar::after{
+  content:"GESCHWÄRZT";font-family:"IBM Plex Mono",monospace;font-size:1.5cqw;
+  letter-spacing:.18em;color:#3A4642;padding-left:1.2cqw
+}
+.bar .grip{
+  position:absolute;right:0;top:0;bottom:0;width:3.2cqw;cursor:ew-resize;
+  background:linear-gradient(90deg,transparent,var(--duck-deep));touch-action:none
+}
+.bar[hidden]{display:none}
+
+/* headline */
+.hl{
+  font-family:Anton,"Arial Narrow",Impact,sans-serif;font-weight:400;
+  font-size:9.6cqw;line-height:.9;letter-spacing:.004em;text-transform:uppercase;
+  margin:5.5cqw 0 0;text-wrap:balance
+}
+.hl .y{color:var(--duck)}
+.rule{width:16cqw;height:.9cqw;background:var(--duck);margin:3.6cqw 0 3.2cqw}
+.sub{font-size:3.5cqw;line-height:1.45;color:var(--paper-2);margin:0;max-width:44ch}
+.sub b{color:var(--paper);font-weight:600}
+.spacer{flex:1 1 auto;min-height:2cqw}
+.foot{
+  font-family:"IBM Plex Mono",monospace;font-size:2.2cqw;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--mute);
+  display:flex;justify-content:space-between;gap:2cqw
+}
+.foot em{color:var(--duck);font-style:normal}
+
+/* slide 2 – taped label */
+.label{
+  background:var(--paper);color:var(--ink);margin-top:4.5cqw;padding:4.6cqw 4.6cqw 4cqw;
+  transform:rotate(-.7deg);box-shadow:0 2cqw 5cqw rgba(0,0,0,.5)
+}
+.label h2{
+  font-family:Anton,sans-serif;font-weight:400;font-size:5.4cqw;line-height:1;
+  text-transform:uppercase;margin:0 0 3.4cqw;letter-spacing:.01em
+}
+.facts{display:flex;flex-direction:column;gap:3cqw;margin:0;padding:0;list-style:none}
+.facts li{display:grid;grid-template-columns:16cqw 1fr;gap:2.6cqw;align-items:start}
+.facts .tag{
+  font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:1.95cqw;letter-spacing:.13em;
+  text-transform:uppercase;background:var(--ink);color:var(--duck);
+  padding:1.1cqw .6cqw;text-align:center;line-height:1
+}
+.facts p{margin:0;font-size:2.85cqw;line-height:1.44;color:#25302B}
+.facts p b{color:var(--ink);font-weight:600}
+
+.hazard{
+  margin-top:4.6cqw;
+  background:repeating-linear-gradient(-45deg,var(--duck) 0 2.4cqw,var(--ink) 2.4cqw 4.8cqw);
+  padding:1.4cqw
+}
+.hazard div{
+  background:var(--ink);padding:3cqw 3.4cqw;
+  font-family:"IBM Plex Mono",monospace;font-size:2.3cqw;font-weight:600;line-height:1.6;
+  letter-spacing:.05em;color:var(--paper)
+}
+.hazard b{color:var(--duck)}
+
+.cta{margin-top:5cqw}
+.cta h3{
+  font-family:Anton,sans-serif;font-weight:400;font-size:6.6cqw;line-height:.94;
+  text-transform:uppercase;margin:0 0 2.6cqw;color:var(--duck);text-wrap:balance
+}
+.cta p{margin:0;font-size:3cqw;line-height:1.45;color:var(--paper-2);max-width:46ch}
+.cta p b{color:var(--paper);font-weight:600}
+.report{
+  margin-top:3.4cqw;border-left:.8cqw solid var(--blood);padding-left:2.6cqw;
+  font-family:"IBM Plex Mono",monospace;font-size:2.15cqw;font-weight:600;
+  letter-spacing:.11em;text-transform:uppercase;line-height:1.65;color:var(--mute)
+}
+.report b{color:var(--paper)}
+
+/* ---------- copy kit ---------- */
+.kit{display:flex;flex-direction:column;gap:clamp(22px,3vw,34px)}
+h2.sec{
+  font-family:Anton,sans-serif;font-weight:400;font-size:clamp(24px,3.4vw,34px);
+  text-transform:uppercase;letter-spacing:.01em;margin:0;line-height:1
+}
+h2.sec .num{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;letter-spacing:.16em;
+  color:var(--duck);display:block;margin-bottom:10px;text-transform:uppercase
+}
+.card{background:var(--ink-2);border:1px solid var(--line);padding:clamp(18px,2.4vw,28px)}
+.card+.card{margin-top:14px}
+.card h3{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--duck);margin:0 0 12px
+}
+.card p{margin:0 0 12px;line-height:1.65;font-size:15.5px;color:var(--paper-2);max-width:70ch}
+.card p:last-child{margin-bottom:0}
+.card p b{color:var(--paper);font-weight:600}
+.why{font-size:13.5px;color:var(--mute);border-top:1px solid var(--line);padding-top:12px;margin-top:14px}
+.why b{color:var(--duck);font-weight:600}
+.quote{
+  font-family:Anton,sans-serif;font-weight:400;font-size:clamp(20px,2.8vw,28px);
+  line-height:1.06;text-transform:uppercase;color:var(--paper);margin:0 0 14px
+}
+.quote .y{color:var(--duck)}
+pre.copyblock{
+  margin:0;background:var(--ink);border:1px solid var(--line);border-left:3px solid var(--duck);
+  padding:20px;white-space:pre-wrap;word-break:break-word;
+  font-family:"IBM Plex Sans",sans-serif;font-size:15px;line-height:1.68;color:var(--paper-2);
+  max-height:none
+}
+pre.copyblock.mono{font-family:"IBM Plex Mono",monospace;font-size:13.5px;line-height:1.9;letter-spacing:.02em}
+.copybar{display:flex;align-items:center;gap:12px;margin-top:12px}
+.copybar .status{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--duck)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+ul.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+ul.check li{display:grid;grid-template-columns:22px 1fr;gap:11px;font-size:15px;line-height:1.55;color:var(--paper-2)}
+ul.check li .m{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:15px}
+ul.check li.yes .m{color:var(--duck)}
+ul.check li.no .m{color:var(--blood)}
+ul.check li b{color:var(--paper);font-weight:600}
+.warn{border-left:3px solid var(--blood);background:rgba(196,52,31,.09);padding:18px 20px}
+.warn h3{color:var(--blood)}
+footer.end{
+  margin-top:56px;border-top:2px solid var(--line);padding-top:20px;
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--mute);line-height:1.9
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker"><span class="dot"></span>Story-Kit · 2 Slides · 9:16 · Deutsch</div>
+    <h1>Maulkorb oder Maulverschluss</h1>
+    <p>Zwei fertige Instagram-Story-Slides gegen Anti-Bell-Silikonmaulkörbe. Screenshot reinziehen, Adresse schwärzen, Headline wählen, abfotografieren. Die Texte darunter sind zum Kopieren. <b>Der Kern der Aussage: nicht „Maulkorb böse" – sondern Korb statt Verschluss.</b></p>
+  </header>
+
+  <section class="panel" aria-label="Story-Einstellungen">
+    <div class="panel-row">
+      <div class="field">
+        <span>1 · Screenshot</span>
+        <div class="btns">
+          <label class="filebtn" tabindex="0" role="button">Bild wählen<input type="file" id="file" accept="image/*"></label>
+          <button type="button" id="clear">Entfernen</button>
+        </div>
+      </div>
+      <div class="field">
+        <span>2 · Ausschnitt</span>
+        <div class="btns" style="align-items:center;gap:16px">
+          <input type="range" id="py" min="0" max="100" value="42" aria-label="Bildausschnitt vertikal">
+          <input type="range" id="zoom" min="100" max="220" value="100" aria-label="Bild zoomen">
+        </div>
+      </div>
+      <div class="field">
+        <span>3 · Schwärzen</span>
+        <div class="btns">
+          <button type="button" id="redact" aria-pressed="false">Balken einblenden</button>
+        </div>
+      </div>
+    </div>
+    <div class="panel-row">
+      <div class="field" style="flex:1">
+        <span>4 · Headline für Slide 1</span>
+        <div class="btns" id="variants">
+          <button type="button" data-v="0" aria-pressed="true">A · Der Fakt</button>
+          <button type="button" data-v="1" aria-pressed="false">B · Der Preis</button>
+          <button type="button" data-v="2" aria-pressed="false">C · Der Zynismus</button>
+        </div>
+      </div>
+    </div>
+    <p class="hint"><b>Wichtig vor dem Posten:</b> Auf deinem Screenshot steht oben rechts eine Lieferadresse mit Vorname und PLZ – das sind personenbezogene Daten und die gehören da weg. Schneide sie am besten schon im Handy weg oder leg den Schwärzungsbalken drüber. Denselben Balken kannst du über den Verkäufernamen legen, wenn du keine Meute auf einen einzelnen Marktplatz-Händler hetzen willst.</p>
+  </section>
+
+  <div class="stages">
+    <div class="stage-wrap">
+      <div class="stage-label"><span>Slide 1 · Der Schlag</span><em>1080 × 1920</em></div>
+      <div class="stage">
+        <article class="story" id="s1">
+          <div class="safe-top"></div>
+          <div class="pad"><div class="eyebrow">Gefunden auf dem Amazon-Marktplatz</div></div>
+          <div class="exhibit empty" id="exhibit">
+            <img alt="Produktfoto: Hund mit gelbem Silikon-Maulkorb in Entenschnabelform" id="shot">
+            <div class="drop">
+              <strong>Screenshot hier ablegen</strong>
+              <span>Ziehen &amp; loslassen<br>oder oben „Bild wählen"</span>
+            </div>
+            <div class="pricetag"><small>Preis</small>6,34 €</div>
+            <div class="bar" id="bar1" hidden style="left:56%;top:12%;width:40%"><i class="grip"></i></div>
+            <div class="bar" id="bar2" hidden style="left:58%;top:52%;width:26%"><i class="grip"></i></div>
+          </div>
+          <div class="pad">
+            <h2 class="hl" id="headline">Hunde schwitzen&nbsp;nicht.<br><span class="y">Sie hecheln.</span></h2>
+            <div class="rule"></div>
+            <p class="sub" id="subline">Dieser Maulkorb ist dafür gebaut, genau das zu verhindern. Verkauft wird er als <b>„niedlich"</b>.</p>
+          </div>
+          <div class="spacer"></div>
+          <div class="pad"><div class="foot"><span>Slide 1 von 2</span><em>Weitertippen →</em></div></div>
+          <div class="safe-bot"></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="stage-wrap">
+      <div class="stage-label"><span>Slide 2 · Die Begründung</span><em>1080 × 1920</em></div>
+      <div class="stage">
+        <article class="story">
+          <div class="safe-top"></div>
+          <div class="pad">
+            <div class="eyebrow">Warum das kein Detail ist</div>
+            <div class="label">
+              <h2>Was ein zugehaltenes Maul bedeutet</h2>
+              <ul class="facts">
+                <li>
+                  <span class="tag">Kühlung</span>
+                  <p>Hunde schwitzen kaum über die Haut. <b>Hecheln ist ihre Klimaanlage.</b> Schnauze zu heißt Kühlung aus – bei Wärme, Stress oder Anstrengung wird daraus ein Hitzschlagrisiko.</p>
+                </li>
+                <li>
+                  <span class="tag">Wasser</span>
+                  <p>Trinken ist damit nicht möglich. Und wenn ein Hund darin erbricht, <b>bekommt er es nicht heraus</b>.</p>
+                </li>
+                <li>
+                  <span class="tag">Stimme</span>
+                  <p>Bellen ist Kommunikation: Angst, Schmerz, Stress, Langeweile. Ein Verschluss macht <b>nicht die Ursache leiser. Nur den Hund.</b></p>
+                </li>
+              </ul>
+            </div>
+            <div class="hazard"><div>§ 1 Tierschutzgesetz — <b>Niemand darf einem Tier ohne vernünftigen Grund Schmerzen, Leiden oder Schäden zufügen.</b></div></div>
+            <div class="cta">
+              <h3>Maulkorb ja.<br>Maulverschluss nein.</h3>
+              <p>Ein gut sitzender <b>Korbmaulkorb</b> aus Gitter, Kunststoff oder Biothane ist ein sinnvolles, tierschutzkonformes Hilfsmittel: hecheln, trinken, atmen bleibt möglich. Dieses Ding kann genau das nicht.</p>
+              <div class="report">Melden statt hassen:<br><b>Produkt auf der Plattform melden</b> – nicht den Verkäufer jagen.</div>
+            </div>
+          </div>
+          <div class="spacer"></div>
+          <div class="safe-bot"></div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <div class="kit">
+
+    <section>
+      <h2 class="sec"><span class="num">Baustein 01</span>Drei Headlines, drei Wirkungen</h2>
+      <div class="card">
+        <h3>A · Der Fakt — Standard, funktioniert am breitesten</h3>
+        <p class="quote">Hunde schwitzen nicht.<br><span class="y">Sie hecheln.</span></p>
+        <p>Dieser Maulkorb ist dafür gebaut, genau das zu verhindern. Verkauft wird er als „niedlich".</p>
+        <p class="why"><b>Warum das zündet:</b> Es beschuldigt niemanden – es erklärt Biologie. Wer widersprechen will, muss die Physiologie eines Hundes bestreiten. Diese Zeile hält jeder Kommentarspalte stand.</p>
+      </div>
+      <div class="card">
+        <h3>B · Der Preis — der Schock-Einstieg</h3>
+        <p class="quote">6,34 €.<br><span class="y">So viel kostet es, einem Hund das Hecheln zu verbieten.</span></p>
+        <p>Zwei Stück im Set sind billiger. „Auf Lager." Lieferung bis Dienstag.</p>
+        <p class="why"><b>Warum das zündet:</b> Die Zahl macht die Beiläufigkeit greifbar. Nicht das Produkt ist der Skandal, sondern dass es ein Wegwerfartikel ist. Nimm diese Variante, wenn du auf Reichweite gehst.</p>
+      </div>
+      <div class="card">
+        <h3>C · Der Zynismus — für dein Stammpublikum</h3>
+        <p class="quote">Verkauft als <span class="y">„niedlicher Entenschnabel"</span>. Gebaut als Maulverschluss.</p>
+        <p>Ein Hund kann darin nicht hecheln, nicht trinken, nicht kommunizieren. Aber er ist ruhig. Darum geht's ja.</p>
+        <p class="why"><b>Warum das zündet:</b> Der Sarkasmus in der letzten Zeile trifft die eigentliche Zielgruppe des Produkts – Menschen, denen ihr Hund zu laut ist. Stark, aber polarisierend: Rechne mit Gegenwind.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sec"><span class="num">Baustein 02</span>Caption für Story-Link oder Feed-Post</h2>
+      <div class="card">
+        <pre class="copyblock" id="caption">Gefunden auf dem Amazon-Marktplatz. 6,34 €. Kategorie: „niedlich".
+
+Was hier als Entenschnabel verkauft wird, ist ein Maulverschluss aus Silikon. Er hält die Schnauze zu, damit der Hund nicht mehr bellt. Genau das ist das Verkaufsargument.
+
+Nur: Hunde schwitzen nicht wie wir. Sie regulieren ihre Körpertemperatur fast ausschließlich über das Hecheln. Wer die Schnauze zubindet, schaltet die Kühlung ab. Bei Wärme, Aufregung oder Bewegung ist das kein Komfortproblem – das ist ein Hitzschlagrisiko.
+
+Dazu: kein Trinken. Und wenn ein Hund darin erbricht, bekommt er es nicht heraus.
+
+Und das Bellen selbst? Bellen ist Kommunikation. Angst, Stress, Schmerz, Langeweile, Unterforderung. Ein Verschluss macht die Ursache nicht leiser. Nur den Hund.
+
+Damit es nicht falsch ankommt, weil es sonst garantiert falsch ankommt:
+Maulkörbe sind nichts Schlechtes. Ein gut sitzender Korbmaulkorb aus Gitter, Kunststoff oder Biothane ist ein sinnvolles Hilfsmittel – beim Tierarzt, in der Bahn, im Maulkorbtraining. Der Hund kann darin hecheln, trinken und atmen. Der Unterschied ist nicht „Maulkorb ja oder nein". Der Unterschied ist Korb oder Verschluss.
+
+§ 1 Tierschutzgesetz: Niemand darf einem Tier ohne vernünftigen Grund Schmerzen, Leiden oder Schäden zufügen.
+
+Was ihr tun könnt:
+→ Das Produkt auf der Plattform melden (Produktseite runterscrollen, „Produkt melden" / Missbrauch melden)
+→ Teilen, damit es niemand aus Versehen als Geschenk kauft
+→ Keine Hassnachrichten an den Händler. Das Produkt gehört gemeldet, kein Mensch gejagt.
+
+Wenn du einen Hund hast, der viel bellt: Der Weg ist Ursache finden, nicht Maul zubinden. Frag eine gute Hundeschule oder eine Verhaltenstierärztin. Das kostet mehr als 6,34 € und wirkt dafür.</pre>
+        <div class="copybar"><button type="button" data-copy="caption">Caption kopieren</button><span class="status" data-status="caption"></span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sec"><span class="num">Baustein 03</span>Sticker, Hashtags, Verlinkung</h2>
+      <div class="grid2">
+        <div class="card">
+          <h3>Story-Sticker, die Reichweite ziehen</h3>
+          <ul class="check">
+            <li class="yes"><span class="m">→</span><span><b>Umfrage auf Slide 1:</b> „Wusstest du, dass Hunde übers Hecheln kühlen?" — Ja / Nein. Fast alle tippen, das pusht die Story sofort.</span></li>
+            <li class="yes"><span class="m">→</span><span><b>Frage-Sticker auf Slide 2:</b> „Was hilft wirklich gegen Bellen?" — sammelt Antworten für eine Folge-Story.</span></li>
+            <li class="yes"><span class="m">→</span><span><b>Link-Sticker:</b> auf deinen Feed-Post mit der langen Caption, damit die Fakten nicht nach 24 h weg sind.</span></li>
+            <li class="no"><span class="m">×</span><span>Kein Countdown, kein Musiksticker. Beides zieht bei diesem Thema den Ernst raus.</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Hashtags — Feed-Post, 12 statt 30</h3>
+          <pre class="copyblock mono" id="tags">#tierschutz #hunde #hundeliebe #hundegesundheit
+#maulkorb #maulkorbtraining #hundetraining
+#hundeerziehung #tierrechte #hundealltag
+#hundemensch #aufklärung</pre>
+          <div class="copybar"><button type="button" data-copy="tags">Hashtags kopieren</button><span class="status" data-status="tags"></span></div>
+          <p class="why"><b>Verlinken:</b> Mission Erde bzw. Robert Marc Lehmann und den Deutschen Tierschutzbund kannst du taggen – prüf die Handles vorher kurz auf dem jeweiligen Profil, statt sie aus dem Kopf zu tippen. Und tagge die Plattform nicht: das macht aus Aufklärung einen Streit über Marken.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sec"><span class="num">Baustein 04</span>Bevor du auf „Senden" tippst</h2>
+      <div class="card warn">
+        <h3>Diese vier Dinge kosten dich sonst die Glaubwürdigkeit</h3>
+        <ul class="check">
+          <li class="no"><span class="m">×</span><span><b>Die Lieferadresse.</b> Vorname und Postleitzahl stehen auf deinem Screenshot. Weg damit, bevor irgendwas hochgeht.</span></li>
+          <li class="no"><span class="m">×</span><span><b>„Amazon verkauft Tierquälerei."</b> Verkäufer ist laut Screenshot ein Marktplatz-Händler, nicht Amazon selbst. Schreib „auf dem Amazon-Marktplatz angeboten" – sonst hast du in den ersten drei Kommentaren eine Richtigstellung stehen und der Rest liest nicht weiter.</span></li>
+          <li class="no"><span class="m">×</span><span><b>Händlername groß im Bild.</b> Ein Post mit 5.000 Views kann einer einzelnen Person das Leben zerlegen. Melde das Produkt, schwärze den Namen.</span></li>
+          <li class="yes"><span class="m">✓</span><span><b>Der Satz „Maulkorb ja, Maulverschluss nein" muss rein.</b> Ohne ihn liest die halbe Hundeszene das als Anti-Maulkorb-Post und diskutiert über das falsche Thema.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sec"><span class="num">Baustein 05</span>So kommen die Slides sauber raus</h2>
+      <div class="card">
+        <p><b>1.</b> Screenshot laden, mit den beiden Reglern Ausschnitt und Zoom setzen, Balken über Adresse und Händlernamen ziehen (Balken verschieben: mittig anfassen, Breite ändern: rechte Kante).</p>
+        <p><b>2.</b> Headline-Variante wählen. A ist der sichere Standard, B für Reichweite, C für dein Stammpublikum.</p>
+        <p><b>3.</b> Diese Seite am Handy öffnen, eine Slide bildschirmfüllend zoomen, Screenshot machen. Instagram beschneidet 9:16 dann nicht mehr – die oberen und unteren Ränder sind bewusst frei gelassen, damit dein Profilbild und die Antwortleiste nichts überdecken.</p>
+        <p><b>4.</b> Slide 1 zuerst, Slide 2 direkt danach. Wer nach Slide 1 weitertippt, will die Erklärung – deshalb steht der Fakt vorn und die Einordnung hinten, nicht umgekehrt.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="end">
+    Story-Kit · Stomper-Guide · Alle Aussagen zu Thermoregulation, Hecheln und Korbmaulkorb entsprechen gängiger tierärztlicher Empfehlung — den Gesetzestext (§ 1 TierSchG) vor dem Posten einmal selbst nachlesen.
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var exhibit=document.getElementById("exhibit"),
+      shot=document.getElementById("shot"),
+      file=document.getElementById("file"),
+      clearBtn=document.getElementById("clear"),
+      py=document.getElementById("py"),
+      zoom=document.getElementById("zoom"),
+      redact=document.getElementById("redact"),
+      bars=[document.getElementById("bar1"),document.getElementById("bar2")],
+      headline=document.getElementById("headline"),
+      subline=document.getElementById("subline");
+
+  /* ---- image loading ---- */
+  function load(f){
+    if(!f||!/^image\//.test(f.type))return;
+    var r=new FileReader();
+    r.onload=function(e){shot.src=e.target.result;exhibit.classList.remove("empty");};
+    r.readAsDataURL(f);
+  }
+  file.addEventListener("change",function(){load(file.files&&file.files[0]);});
+  document.querySelector(".filebtn").addEventListener("keydown",function(e){
+    if(e.key==="Enter"||e.key===" "){e.preventDefault();file.click();}
+  });
+  clearBtn.addEventListener("click",function(){
+    shot.removeAttribute("src");exhibit.classList.add("empty");file.value="";
+  });
+  ["dragenter","dragover"].forEach(function(t){
+    exhibit.addEventListener(t,function(e){e.preventDefault();exhibit.classList.add("over");});
+  });
+  ["dragleave","drop"].forEach(function(t){
+    exhibit.addEventListener(t,function(e){e.preventDefault();exhibit.classList.remove("over");});
+  });
+  exhibit.addEventListener("drop",function(e){
+    var dt=e.dataTransfer;if(dt&&dt.files&&dt.files.length)load(dt.files[0]);
+  });
+
+  /* ---- framing ---- */
+  function frame(){
+    shot.style.setProperty("--py",py.value+"%");
+    shot.style.setProperty("--z",(zoom.value/100).toFixed(3));
+  }
+  py.addEventListener("input",frame);
+  zoom.addEventListener("input",frame);
+  frame();
+
+  /* ---- redaction bars: drag to move, right edge to resize ---- */
+  redact.addEventListener("click",function(){
+    var on=redact.getAttribute("aria-pressed")!=="true";
+    redact.setAttribute("aria-pressed",String(on));
+    redact.textContent=on?"Balken ausblenden":"Balken einblenden";
+    bars.forEach(function(b){b.hidden=!on;});
+  });
+  bars.forEach(function(bar){
+    var mode=null,startX=0,startY=0,startL=0,startT=0,startW=0,box=null;
+    function down(e){
+      box=exhibit.getBoundingClientRect();
+      mode=e.target.classList.contains("grip")?"size":"move";
+      startX=e.clientX;startY=e.clientY;
+      startL=parseFloat(bar.style.left);startT=parseFloat(bar.style.top);
+      startW=parseFloat(bar.style.width);
+      bar.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    }
+    function move(e){
+      if(!mode||!box)return;
+      var dx=(e.clientX-startX)/box.width*100,dy=(e.clientY-startY)/box.height*100;
+      if(mode==="size"){
+        bar.style.width=Math.min(100-startL,Math.max(6,startW+dx))+"%";
+      }else{
+        bar.style.left=Math.min(100-startW,Math.max(0,startL+dx))+"%";
+        bar.style.top=Math.min(94.8,Math.max(0,startT+dy))+"%";
+      }
+    }
+    function up(e){mode=null;box=null;try{bar.releasePointerCapture(e.pointerId);}catch(err){}}
+    bar.addEventListener("pointerdown",down);
+    bar.addEventListener("pointermove",move);
+    bar.addEventListener("pointerup",up);
+    bar.addEventListener("pointercancel",up);
+  });
+
+  /* ---- headline variants ---- */
+  var V=[
+    {h:'Hunde schwitzen&nbsp;nicht.<br><span class="y">Sie hecheln.</span>',
+     s:'Dieser Maulkorb ist dafür gebaut, genau das zu verhindern. Verkauft wird er als <b>„niedlich"</b>.'},
+    {h:'6,34&nbsp;€.<br><span class="y">So viel kostet es, einem Hund das Hecheln zu verbieten.</span>',
+     s:'Zwei Stück im Set sind billiger. <b>„Auf Lager."</b> Lieferung bis Dienstag.'},
+    {h:'Verkauft als <span class="y">„niedlich".</span><br>Gebaut als Maulverschluss.',
+     s:'Ein Hund kann darin nicht hecheln, nicht trinken, nicht kommunizieren. Aber er ist <b>ruhig</b>. Darum geht es ja.'}
+  ];
+  var vbtns=document.querySelectorAll("#variants button");
+  function setVariant(i,persist){
+    var v=V[i];if(!v)return;
+    headline.innerHTML=v.h;subline.innerHTML=v.s;
+    vbtns.forEach(function(b){b.setAttribute("aria-pressed",String(+b.dataset.v===i));});
+    if(persist){try{localStorage.setItem("mk-variant",String(i));}catch(e){}}
+  }
+  vbtns.forEach(function(b){
+    b.addEventListener("click",function(){setVariant(+b.dataset.v,true);});
+  });
+  try{
+    var saved=parseInt(localStorage.getItem("mk-variant"),10);
+    if(saved>=0&&saved<V.length)setVariant(saved,false);
+  }catch(e){}
+
+  /* ---- copy buttons ---- */
+  document.querySelectorAll("[data-copy]").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var id=btn.dataset.copy,
+          node=document.getElementById(id),
+          status=document.querySelector('[data-status="'+id+'"]'),
+          text=node.textContent;
+      function ok(){status.textContent="Kopiert";setTimeout(function(){status.textContent="";},2200);}
+      function fallback(){
+        var sel=window.getSelection(),range=document.createRange();
+        range.selectNodeContents(node);sel.removeAllRanges();sel.addRange(range);
+        var done=false;try{done=document.execCommand("copy");}catch(e){}
+        status.textContent=done?"Kopiert":"Markiert – jetzt ⌘/Strg + C";
+        setTimeout(function(){status.textContent="";},3200);
+      }
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(ok,fallback);
+      }else{fallback();}
+    });
+  });
+})();
+</script>
